@@ -1,0 +1,1 @@
+RadioPi aims to use a raspberry pi to create a wireless database system through a similar method to TTY communication.  This will allow regular radios to transmit computer data via a series of tones assigned to a specific character or number value.  Why do this?  I just think it's neat.  Obviously it's not done yet.
