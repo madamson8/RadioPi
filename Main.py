@@ -3,6 +3,10 @@ import os
 from pathlib import Path
 from radio_test.Encoder import Encoder
 from cryptography.fernet import Fernet
+import socket
+
+
+HOST, PORT = '127.1.1.19', 5734
 
 
 class Main:
@@ -29,9 +33,14 @@ class Main:
 # Encode and send
 os.environ['RADIO_KEY'] = Fernet.generate_key().decode()
 e = Encoder(str(Path.home()) + "/radioreceiver/directory/operations/working.rdo")
-operating_string = e.string_b64("HELLO WORLD")
-print(f"RECEIVED MESSAGE: {operating_string}")
+operating_string = e.string_b64("ECHO 10-4")
 
-# Decode and receive
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.connect((HOST, PORT))
+    s.sendall(operating_string)
+    data = s.recv(1024)
+
+# DECODE AND RECEIVE
 m = Main('string')
-print(f"DECODED MESSAGE: {m.decode_transmission(operating_string)}")
+print(f"DECODED MESSAGE: {m.decode_transmission(data)!r}")
+
